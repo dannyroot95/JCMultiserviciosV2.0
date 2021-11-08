@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">JC Multiservicios</string>
+    <string name="title_activity_main_menu">MainMenu</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_logout">Salir</string>
+
+    <string name="my_products">Mis Productos</string>
+    <string name="manage_users">Usuarios</string>
+    <string name="sales">Ventas</string>
+    <string name="no_dashboard_item_found">No se encontraron productos !</string>
+</resources>
