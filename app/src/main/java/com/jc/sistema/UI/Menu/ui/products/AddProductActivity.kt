@@ -8,19 +8,20 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.view.isVisible
+import com.google.zxing.integration.android.IntentIntegrator
 import com.jc.sistema.Models.Colors
 import com.jc.sistema.Models.Product
 import com.jc.sistema.Providers.ImageProvider
 import com.jc.sistema.Providers.ProductProvider
 import com.jc.sistema.R
 import com.jc.sistema.Utils.BaseActivity
+import com.jc.sistema.Utils.CaptureCodeBar
 import com.jc.sistema.Utils.Constants
 import com.jc.sistema.Utils.FileUtil
 import com.jc.sistema.databinding.ActivityAddProductBinding
 import kotlinx.android.synthetic.main.activity_add_product.*
 import java.io.File
 import java.util.*
-import kotlin.collections.ArrayList
 
 class AddProductActivity : BaseActivity() {
 
@@ -42,10 +43,16 @@ class AddProductActivity : BaseActivity() {
         val adapterSpinnerCategory = ArrayAdapter.createFromResource(
             this,
             R.array.category,
-            R.layout.support_simple_spinner_dropdown_item)
+            R.layout.support_simple_spinner_dropdown_item
+        )
         binding.spCategory.adapter = adapterSpinnerCategory
         binding.spCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
                 category = parent!!.getItemAtPosition(position).toString()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}}
@@ -65,10 +72,16 @@ class AddProductActivity : BaseActivity() {
                 val adapterSpinnerColors = ArrayAdapter.createFromResource(
                     this,
                     R.array.color,
-                    R.layout.support_simple_spinner_dropdown_item)
+                    R.layout.support_simple_spinner_dropdown_item
+                )
                 binding.spColors.adapter = adapterSpinnerColors
                 binding.spColors.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View,
+                        position: Int,
+                        id: Long
+                    ) {
                         val color = parent!!.getItemAtPosition(position).toString()
                         val red = binding.linearRed
                         val green = binding.linearGreen
@@ -118,8 +131,9 @@ class AddProductActivity : BaseActivity() {
             }else{binding.tilPriceForJgo.visibility = View.GONE}
         }
 
-
-
+        binding.btnScanCode.setOnClickListener {
+            initScanner()
+        }
         binding.ivAddImageProduct.setOnClickListener {
             openGallery()
         }
@@ -140,8 +154,20 @@ class AddProductActivity : BaseActivity() {
         }
     }
 
+    private fun initScanner(){
+        val integrator = IntentIntegrator(this)
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES)
+        integrator.setPrompt("Scaneando...")
+        integrator.captureActivity = CaptureCodeBar::class.java
+        integrator.setOrientationLocked(false)
+        integrator.setBeepEnabled(true)
+        integrator.initiateScan()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        val scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+
         if (requestCode == Constants.GALLERY_REQUEST && resultCode == RESULT_OK) {
             try {
                 showDialog("Subiendo foto...")
@@ -178,6 +204,16 @@ class AddProductActivity : BaseActivity() {
                 Toast.makeText(this, "Error al subir imagen", Toast.LENGTH_SHORT).show()
             }
         }
+
+        if (scanResult != null) {
+            if (scanResult.contents == null) {
+                Toast.makeText(this, "Cancelado", Toast.LENGTH_LONG).show()
+            } else {
+                binding.edtCodeProduct.setText(scanResult.contents)
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     private fun clearAllColors(){
@@ -197,10 +233,16 @@ class AddProductActivity : BaseActivity() {
         val adapterSpinnerColors = ArrayAdapter.createFromResource(
             this,
             R.array.color,
-            R.layout.support_simple_spinner_dropdown_item)
+            R.layout.support_simple_spinner_dropdown_item
+        )
         binding.spColors.adapter = adapterSpinnerColors
         binding.spColors.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
                 val color = parent!!.getItemAtPosition(position).toString()
                 val red = binding.linearRed
                 val green = binding.linearGreen
@@ -270,7 +312,7 @@ class AddProductActivity : BaseActivity() {
             stock = sum.toString()
         }
 
-        val color = Colors(red,green,white)
+        val color = Colors(red, green, white)
 
 
         if (urlImageProduct != "" && description.isNotEmpty() && code.isNotEmpty() && stock.isNotEmpty()){
@@ -287,8 +329,9 @@ class AddProductActivity : BaseActivity() {
                 priceForPza,
                 priceForDoc,
                 priceForJgo,
-                stock)
-            mProductProvider.create(product,this,code)
+                stock
+            )
+            mProductProvider.create(product, this, code)
         }else{
             Toast.makeText(
                 this@AddProductActivity,

@@ -35,62 +35,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_height="wrap_content">
-
-                    <com.jc.sistema.Utils.PoppinsTextviewBold
-                        android:id="@+id/tv_item_name"
-                        android:layout_marginStart="2dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/semidark"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        tools:text="Item Name" />
-
-                    <com.jc.sistema.Utils.PoppinsTextviewBold
-                        android:id="@+id/tv_width"
-                        android:layout_marginStart="2dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/semidark"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        tools:text="12" />
-
-                    <com.jc.sistema.Utils.PoppinsTextviewBold
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/semidark"
-                        android:textSize="12sp"
-                        android:text="X"
-                        android:textStyle="bold"
-                        tools:text="X" />
-
-                    <com.jc.sistema.Utils.PoppinsTextviewBold
-                        android:id="@+id/tv_height"
-                        android:layout_marginStart="2dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/semidark"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        tools:text="12" />
-
-                    <com.jc.sistema.Utils.PoppinsTextviewBold
-                        android:id="@+id/tv_magnitude"
-                        android:layout_marginStart="2dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/semidark"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        tools:text="cm" />
-
-                </LinearLayout>
-
+                <com.jc.sistema.Utils.PoppinsTextviewBold
+                    android:id="@+id/tv_item_description"
+                    android:layout_marginStart="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/semidark"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    tools:text="Item Name" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

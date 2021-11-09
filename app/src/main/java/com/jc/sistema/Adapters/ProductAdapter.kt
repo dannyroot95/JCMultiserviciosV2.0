@@ -31,7 +31,7 @@ open class ProductAdapter (
         if (model.image.isNotEmpty()){
             Picasso.with(context).load(model.image).into(holder.binding.ivItemImage)
         }
-        holder.binding.tvItemName.text = model.description
+        holder.binding.tvItemDescription.text = model.description
         holder.binding.tvCategory.text = model.category
 
         if (model.price_for_pza.isNotEmpty()){

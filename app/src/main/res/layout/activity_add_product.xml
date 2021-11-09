@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/lightgray"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             tools:ignore="ContentDescription" />
 
         <ImageView
@@ -89,24 +89,42 @@
 
             </LinearLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:id="@+id/til_code_product"
-                android:hint="Código de producto"
+                android:orientation="horizontal"
                 android:layout_marginTop="12dp"
-                android:textColorHint="@color/gray"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_height="wrap_content">
 
-                <com.jc.sistema.Utils.PoppinsEditText
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:id="@+id/edt_code_product"
-                    android:inputType="number"
-                    android:layout_height="wrap_content"/>
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:id="@+id/til_code_product"
+                    android:hint="Código de producto"
+                    android:textColorHint="@color/gray"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:layout_height="match_parent">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.jc.sistema.Utils.PoppinsEditText
+                        android:layout_width="match_parent"
+                        android:id="@+id/edt_code_product"
+                        android:inputType="number"
+                        android:textColor="@color/mainColor"
+                        android:layout_height="match_parent"/>
 
+                </com.google.android.material.textfield.TextInputLayout>
 
+                <ImageView
+                    android:id="@+id/btn_scan_code"
+                    android:layout_width="50dp"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/ic_scan_code_bar"
+                    android:layout_height="wrap_content"
+                    tools:targetApi="m"
+                    tools:ignore="ContentDescription,UnusedAttribute" />
+
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
