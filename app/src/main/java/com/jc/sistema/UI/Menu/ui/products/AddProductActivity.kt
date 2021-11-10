@@ -286,7 +286,6 @@ class AddProductActivity : BaseActivity() {
         val priceForPza = binding.edtPriceForPza.text.toString()
         val priceForDoc = binding.edtPriceForDoc.text.toString()
         val priceForJgo = binding.edtPriceForJgo.text.toString()
-        val colors : Colors
 
         val red : Int = if (binding.edtRedQuantity.text.toString() == ""){
             0
@@ -314,10 +313,9 @@ class AddProductActivity : BaseActivity() {
 
         val color = Colors(red, green, white)
 
-
         if (urlImageProduct != "" && description.isNotEmpty() && code.isNotEmpty() && stock.isNotEmpty()){
 
-            showDialog("Registrando producto...")
+            showDialog("Registrando...")
 
             val product = Product(
                 code,

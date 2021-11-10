@@ -2,15 +2,13 @@ package com.jc.sistema.Adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.jc.sistema.Models.Colors
 import com.jc.sistema.Models.Product
-import com.jc.sistema.databinding.ItemLayoutBinding
+import com.jc.sistema.databinding.ItemProductLayoutBinding
 import com.squareup.picasso.Picasso
 
 open class ProductAdapter (
@@ -18,10 +16,10 @@ open class ProductAdapter (
     private var list: ArrayList<Product>
 ) : RecyclerView.Adapter<ProductAdapter.MyViewHolder>() {
 
-    inner class MyViewHolder(val binding: ItemLayoutBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class MyViewHolder(val binding: ItemProductLayoutBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding = ItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemProductLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
     }
 

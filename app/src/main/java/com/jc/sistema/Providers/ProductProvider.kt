@@ -1,7 +1,5 @@
 package com.jc.sistema.Providers
 
-import android.app.Activity
-import android.util.Log
 import android.widget.Toast
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase

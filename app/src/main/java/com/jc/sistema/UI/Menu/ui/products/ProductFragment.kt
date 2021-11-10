@@ -30,7 +30,7 @@ class ProductFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         productViewModel =
             ViewModelProvider(this).get(ProductViewModel::class.java)
         binding = FragmentProductBinding.inflate(inflater,container,false)

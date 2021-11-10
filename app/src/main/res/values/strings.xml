@@ -12,4 +12,5 @@
     <string name="manage_users">Usuarios</string>
     <string name="sales">Ventas</string>
     <string name="no_dashboard_item_found">No se encontraron productos !</string>
+    <string name="no_dashboard_item_user">No se encontraron usuarios !</string>
 </resources>

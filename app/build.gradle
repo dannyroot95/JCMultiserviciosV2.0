@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
     id 'kotlin-android-extensions'
     id 'com.google.gms.google-services'
 }
@@ -71,6 +72,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     //code bar
     implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
+    //room
+    implementation 'org.jetbrains.anko:anko-common:0.9'
+    implementation 'android.arch.persistence.room:runtime:1.0.0-rc1'
+    kapt 'android.arch.persistence.room:compiler:1.0.0-rc1'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
