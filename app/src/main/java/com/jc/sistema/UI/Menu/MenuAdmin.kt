@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -17,18 +16,20 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.get
 import com.jc.sistema.Providers.AuthenticationProvider
+import com.jc.sistema.Providers.TokenProvider
 import com.jc.sistema.R
 import com.jc.sistema.UI.LoginActivity
 import com.jc.sistema.Utils.Constants
 
-class MainMenu : AppCompatActivity() {
+class MenuAdmin : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var mAuth : AuthenticationProvider = AuthenticationProvider()
+    private var token : TokenProvider = TokenProvider()
     private var mEmail : String = ""
     private var mName : String = ""
+    private var mTypeUser : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +43,9 @@ class MainMenu : AppCompatActivity() {
         val preferenceName : SharedPreferences = getSharedPreferences(Constants.USERNAME,MODE_PRIVATE)
         mName = preferenceName.getString(Constants.USERNAME,"").toString()
 
+        val preferenceUser : SharedPreferences = getSharedPreferences(Constants.TYPE_USER,MODE_PRIVATE)
+        mTypeUser = preferenceUser.getString(Constants.KEY_TYPE_USER,"").toString()
+
         //val fab: FloatingActionButton = findViewById(R.id.fab)
        /* fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -51,15 +55,26 @@ class MainMenu : AppCompatActivity() {
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
+        val nav : Menu = navView.menu
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_products, R.id.nav_users, R.id.nav_sales
+                R.id.nav_products, R.id.nav_users,R.id.nav_orders, R.id.nav_sales
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        if (mTypeUser == Constants.SUPER_USER){
+            nav.findItem(R.id.nav_orders).isVisible = false
+        }
+        else if (mTypeUser == Constants.VENDOR){
+            navController.navigate(R.id.nav_orders)
+            nav.findItem(R.id.nav_products).isVisible = false
+            nav.findItem(R.id.nav_users).isVisible = false
+        }
 
         val headerView : View = navView.getHeaderView(0)
         val navUsername : TextView = headerView.findViewById(R.id.name)
@@ -80,6 +95,7 @@ class MainMenu : AppCompatActivity() {
 
         when(item.itemId){
             R.id.action_logout -> {
+                token.deleteToken(mAuth.getId())
                 mAuth.logout()
                 val intent = Intent(this, LoginActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)

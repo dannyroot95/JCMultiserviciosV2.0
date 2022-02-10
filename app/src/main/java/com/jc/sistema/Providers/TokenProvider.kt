@@ -1,29 +1,31 @@
 package com.jc.sistema.Providers
 
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
+
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.installations.FirebaseInstallations
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.jc.sistema.Utils.Constants
+import com.jc.sistema.Models.Token
 
 class TokenProvider {
 
-    var mDatabase: DatabaseReference = Firebase.database.reference.child("Tokens")
+    var mFirebase : FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    fun create(idUser: String) {
-        FirebaseInstallations.getInstance().getToken(true)
-            .addOnCompleteListener { instanceIdResult ->
-                val token = instanceIdResult.result!!.token
-                mDatabase.child(idUser).setValue(token)
-            }
+    fun create(id: String) {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            // Get new FCM registration token
+            val token = Token(task.result.toString())
+            mFirebase.collection(Constants.TOKEN).document(id).set(token)
+        }
     }
 
-    fun getToken(idUser: String): DatabaseReference {
-        return mDatabase.child(idUser)
+    fun getToken(idUser: String): DocumentReference {
+        return mFirebase.collection(Constants.TOKEN).document(idUser)
     }
 
     // LLAMA A ESTE METODO CUANDO EL USUARIO CIERRE SESION
     fun deleteToken(idUser: String) {
-        mDatabase.child(idUser).removeValue()
+        mFirebase.collection(Constants.TOKEN).document(idUser).delete()
     }
 }

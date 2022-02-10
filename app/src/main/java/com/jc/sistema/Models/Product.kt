@@ -1,6 +1,7 @@
 package com.jc.sistema.Models
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import java.io.Serializable
 
 @Parcelize
 data class Product(val id : String = "",
@@ -8,14 +9,13 @@ data class Product(val id : String = "",
                    val description : String = "",
                    val category : String = "",
                    val code : String = "",
-                   val colors : Colors = Colors(),
+                   val arrayColors : ArrayList<Colors> = ArrayList(),
                    val price_for_pza : String = "",
                    val price_for_doc : String = "",
                    val price_for_jgo : String = "",
-                   val stock : String = "") : Parcelable
+                   val stock : String = "") : Parcelable , Serializable
 
 @Parcelize
 data class Colors (
-    val rojo : Int = 0,
-    val verde : Int = 0,
-    val blanco : Int = 0) : Parcelable
+    val value : Int = 0,
+    var quantity : Int = 0) : Parcelable , Serializable

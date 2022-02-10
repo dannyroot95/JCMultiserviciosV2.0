@@ -1,19 +1,15 @@
 package com.jc.sistema.UI.Menu.ui.products
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.os.Build
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.core.view.isVisible
 import com.google.zxing.integration.android.IntentIntegrator
-import com.jc.sistema.Adapters.ColorAdapter
 import com.jc.sistema.Models.Colors
 import com.jc.sistema.Models.Product
 import com.jc.sistema.Providers.ImageProvider
@@ -23,50 +19,51 @@ import com.jc.sistema.Utils.BaseActivity
 import com.jc.sistema.Utils.CaptureCodeBar
 import com.jc.sistema.Utils.Constants
 import com.jc.sistema.Utils.FileUtil
-import com.jc.sistema.databinding.ActivityAddProductBinding
+import com.jc.sistema.databinding.ActivityEditProductBinding
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_add_product.*
-import top.defaults.colorpicker.ColorPickerPopup
 import java.io.File
 import java.util.*
-import kotlin.collections.ArrayList
 
-class AddProductActivity : BaseActivity() {
 
-    private lateinit var binding : ActivityAddProductBinding
+class EditProductActivity : BaseActivity() {
+
+    private lateinit var binding : ActivityEditProductBinding
     private var mImageFileProfile: File? = null
     private lateinit var mImageProvider: ImageProvider
     private lateinit var mProductProvider: ProductProvider
     private var category : String  = ""
     var urlImageProduct = ""
-    private var adapter =  ColorAdapter(this, emptyList())
-    private var items = ArrayList<Colors>()
-    private var valueColor : Int = 0
 
-
-    @RequiresApi(Build.VERSION_CODES.M)
-    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAddProductBinding.inflate(layoutInflater)
+        binding = ActivityEditProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        items = ArrayList<Colors>()
-        valueColor = 0
+        val intent = this.intent
+        val bundle = intent.extras
+        val editProduct : Product = bundle!!.getSerializable(Constants.KEY_ADAPTER) as Product
+        val labels = resources.getStringArray(R.array.category)
+        var setCategoryPosition = 0
 
-        binding.rvColors.layoutManager = LinearLayoutManager(this)
-        binding.rvColors.setHasFixedSize(true)
-        adapter = ColorAdapter(this, items)
-        binding.rvColors.adapter = adapter
+        checkingData(editProduct)
 
         mImageProvider = ImageProvider("products")
         mProductProvider = ProductProvider()
+
+
+        for (i in labels.indices) {
+            if (labels[i] == editProduct.category){
+                setCategoryPosition = i } }
 
         val adapterSpinnerCategory = ArrayAdapter.createFromResource(
             this,
             R.array.category,
             R.layout.support_simple_spinner_dropdown_item
         )
+
         binding.spCategory.adapter = adapterSpinnerCategory
+        binding.spCategory.setSelection(setCategoryPosition)
         binding.spCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -80,32 +77,54 @@ class AddProductActivity : BaseActivity() {
 
         val checkColor = binding.chkColor
 
-        if (!checkColor.isChecked) {
+        if (!checkColor.isChecked){
             binding.tilStock.visibility = View.VISIBLE
-
         }
 
         checkColor.setOnClickListener {
-
-            if (checkColor.isChecked) {
+            if (checkColor.isChecked){
+                binding.spColors.visibility = View.VISIBLE
                 binding.linearColors.visibility = View.VISIBLE
-                binding.tilStock.isEnabled = false
-                binding.lnRvColors.visibility = View.VISIBLE
-                binding.btnPickColor.setBackgroundColor(0)
+                binding.tilStock.visibility = View.GONE
 
-            } else {
-                items.clear()
-                binding.tilStock.isEnabled = true
-                valueColor = 0
-                binding.edtStockColor.setText("")
-                binding.edtStock.setText("")
-                binding.btnPickColor.setBackgroundColor(0)
-                binding.linearColors.visibility = View.GONE
+                val adapterSpinnerColors = ArrayAdapter.createFromResource(
+                    this,
+                    R.array.color,
+                    R.layout.support_simple_spinner_dropdown_item
+                )
+                binding.spColors.adapter = adapterSpinnerColors
+                binding.spColors.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View,
+                        position: Int,
+                        id: Long
+                    ) {
+                        val color = parent!!.getItemAtPosition(position).toString()
+                        val red = binding.linearRed
+                        val green = binding.linearGreen
+                        val white = binding.linearWhite
+
+                        if (color == "Rojo" && !red.isVisible){
+                            red.visibility = View.VISIBLE
+                        }
+                        else if (color == "Verde" && !green.isVisible){
+                            green.visibility = View.VISIBLE
+                        }
+                        else if (color == "Blanco" && !white.isVisible){
+                            white.visibility = View.VISIBLE
+                        }
+
+                    }
+                    override fun onNothingSelected(parent: AdapterView<*>?) {}}
+                deleteByColor()
+            }
+            else{
                 binding.tilStock.visibility = View.VISIBLE
-                binding.lnRvColors.visibility = View.GONE
-                adapter.notifyDataSetChanged()
+                clearAllColors()
             }
         }
+
 
 
         val checkPricePZA = binding.chkPricePza
@@ -136,46 +155,8 @@ class AddProductActivity : BaseActivity() {
         binding.ivAddImageProduct.setOnClickListener {
             openGallery()
         }
-        binding.btnRegisterProduct.setOnClickListener {
-            register(items)
-        }
-        binding.btnPickColor.setOnClickListener {
-            ColorPickerPopup.Builder(this)
-                .initialColor(Color.RED)
-                .enableBrightness(true)
-                .enableAlpha(true)
-                .okTitle("Elegir")
-                .cancelTitle("Cancelar")
-                .build()
-                .show(it,object : ColorPickerPopup.ColorPickerObserver {
-                    override fun onColor(color: Int, fromUser: Boolean) {
-                    }
-                    override fun onColorPicked(color: Int) {
-                        binding.btnPickColor.setBackgroundColor(color)
-                        valueColor = color
-                        //Toast.makeText(this@AddProductActivity,color.toString(),Toast.LENGTH_SHORT).show()
-                    }
-
-                })
-        }
-        binding.btnAdd.setOnClickListener {
-            if (binding.edtStockColor.text.toString() != ""){
-                var sum = 0
-                val quantity = binding.edtStockColor.text.toString().toInt()
-                val data = Colors(valueColor,quantity)
-                items.add(data)
-                adapter.notifyDataSetChanged()
-
-                for(i in items){
-                    sum += i.quantity
-                }
-
-                binding.edtStock.setText(sum.toString())
-
-            }else{
-                Toast.makeText(this,"Ingrese la cantidad",Toast.LENGTH_SHORT).show()
-            }
-
+        binding.btnUpdateProduct.setOnClickListener {
+            //register()
         }
 
     }
@@ -253,24 +234,98 @@ class AddProductActivity : BaseActivity() {
         }
     }
 
+    private fun clearAllColors(){
+        binding.spColors.adapter = null
+        binding.spColors.visibility = View.GONE
+        binding.linearColors.visibility = View.GONE
 
+    }
 
-    private fun register(list : ArrayList<Colors>) {
+    private fun clearSpinner(){
+        binding.spColors.adapter = null
+        val adapterSpinnerColors = ArrayAdapter.createFromResource(
+            this,
+            R.array.color,
+            R.layout.support_simple_spinner_dropdown_item
+        )
+        binding.spColors.adapter = adapterSpinnerColors
+        binding.spColors.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                val color = parent!!.getItemAtPosition(position).toString()
+                val red = binding.linearRed
+                val green = binding.linearGreen
+                val white = binding.linearWhite
+
+                if (color == "Rojo" && !red.isVisible){
+                    red.visibility = View.VISIBLE
+                }
+                else if (color == "Verde" && !green.isVisible){
+                    green.visibility = View.VISIBLE
+                }
+                else if (color == "Blanco" && !white.isVisible){
+                    white.visibility = View.VISIBLE
+                }
+
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}}
+    }
+
+    private fun deleteByColor(){
+        binding.ivDeleteColorRed.setOnClickListener {
+            binding.linearRed.visibility = View.GONE
+            binding.edtRedQuantity.setText("")
+            clearSpinner()
+        }
+        binding.ivDeleteColorGreen.setOnClickListener {
+            binding.linearGreen.visibility = View.GONE
+            binding.edtGreenQuantity.setText("")
+            clearSpinner()
+        }
+        binding.ivDeleteColorWhite.setOnClickListener {
+            binding.linearWhite.visibility = View.GONE
+            binding.edtWhiteQuantity.setText("")
+            clearSpinner()
+        }
+    }
+
+    /*
+    private fun register() {
         val description = binding.edtDescription.text.toString()
         val code = binding.edtCodeProduct.text.toString()
         val priceForPza = binding.edtPriceForPza.text.toString()
         val priceForDoc = binding.edtPriceForDoc.text.toString()
         val priceForJgo = binding.edtPriceForJgo.text.toString()
 
-        val sum   : Int
+        val red : Int = if (binding.edtRedQuantity.text.toString() == ""){
+            0
+        }else{
+            binding.edtRedQuantity.text.toString().toInt()
+        }
+        val green : Int = if (binding.edtGreenQuantity.text.toString() == ""){
+            0
+        }else{
+            binding.edtGreenQuantity.text.toString().toInt()
+        }
+        val white : Int = if (binding.edtWhiteQuantity.text.toString() == ""){
+            0
+        }else{
+            binding.edtWhiteQuantity.text.toString().toInt()
+        }
 
+
+        val sum   : Int = red+green+white
         var stock = binding.edtStock.text.toString()
 
         if (binding.chkColor.isChecked){
-            //stock = sum.toString()
+            stock = sum.toString()
         }
 
-       // val color = Colors(red, green, white)
+        //val color = Colors(red, green, white)
 
         if (urlImageProduct != "" && description.isNotEmpty() && code.isNotEmpty() && stock.isNotEmpty()){
 
@@ -282,25 +337,60 @@ class AddProductActivity : BaseActivity() {
                 description,
                 category,
                 code,
-                list,
+                color,
                 priceForPza,
                 priceForDoc,
                 priceForJgo,
                 stock
             )
-            mProductProvider.create(product, this, code)
+            //mProductProvider.create(product, this, code)
         }else{
             Toast.makeText(
-                this@AddProductActivity,
+                this,
                 "Complete los campos!",
                 Toast.LENGTH_SHORT
             ).show()
         }
 
     }
+*/
+
+    private fun checkingData(editProduct: Product){
+
+        val path: String = getExternalFilesDir(null).toString()+"/"+editProduct.id+".jpg"
+        val file = File(path)
+        val imageUri: Uri = Uri.fromFile(file)
+
+        if (file.exists()){
+            Picasso.with(this).load(imageUri).into(binding.ivProductImage)
+        }else{
+            Picasso.with(this).load(editProduct.image).into(binding.ivProductImage)
+        }
+
+        binding.edtCodeProduct.setText(editProduct.code)
+        binding.edtDescription.setText(editProduct.description)
+        deleteByColor()
+        clearSpinner()
 
 
-    fun productUploadSuccess(){
+        if (editProduct.price_for_pza != ""){
+            binding.chkPricePza.isChecked = true
+            binding.tilPriceForPza.visibility = View.VISIBLE
+            binding.edtPriceForPza.setText(editProduct.price_for_pza)
+        }
+        if (editProduct.price_for_doc != ""){
+            binding.chkPriceDoc.isChecked = true
+            binding.tilPriceForDoc.visibility = View.VISIBLE
+            binding.edtPriceForDoc.setText(editProduct.price_for_doc)
+        }
+        if (editProduct.price_for_jgo != ""){
+            binding.chkPriceJgo.isChecked = true
+            binding.tilPriceForJgo.visibility = View.VISIBLE
+            binding.edtPriceForJgo.setText(editProduct.price_for_jgo)
+        }
+    }
+
+  /*  fun productUploadSuccess(){
         hideDialog()
         Toast.makeText(
             this@AddProductActivity,
@@ -308,68 +398,7 @@ class AddProductActivity : BaseActivity() {
             Toast.LENGTH_SHORT
         ).show()
         finish()
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun deleteItem(position : Int){
-        var sum = 0
-        items.removeAt(position)
-        //adapter.notifyItemRemoved(position)
-        adapter.notifyDataSetChanged()
-        adapter.notifyItemRangeChanged(position, items.size)
-
-        for(i in items){
-            sum += i.quantity
-        }
-        if (sum == 0){
-            binding.edtStock.setText("")
-        }else{
-            binding.edtStock.setText(sum.toString())
-        }
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun subtract(position : Int){
-        var sum = 0
-        val quantity = items[position].quantity
-        val newQuantity = quantity - 1
-
-        if (newQuantity <= 1){
-            items[position].quantity = 1
-        }else{
-            items[position].quantity = newQuantity
-        }
-        for(i in items){
-            sum += i.quantity
-        }
-        if (sum == 0){
-            binding.edtStock.setText("")
-        }else{
-            binding.edtStock.setText(sum.toString())
-        }
-
-        adapter.notifyDataSetChanged()
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun add(position : Int){
-        var sum = 0
-        val quantity = items[position].quantity
-        val newQuantity = quantity + 1
-
-        items[position].quantity = newQuantity
-
-        for(i in items){
-            sum += i.quantity
-        }
-        if (sum == 0){
-            binding.edtStock.setText("")
-        }else{
-            binding.edtStock.setText(sum.toString())
-        }
-
-        adapter.notifyDataSetChanged()
-    }
+    }*/
 
     override fun onBackPressed() {
         super.onBackPressed()

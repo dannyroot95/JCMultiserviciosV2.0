@@ -9,8 +9,16 @@
     <string name="action_logout">Salir</string>
 
     <string name="my_products">Mis Productos</string>
+    <string name="my_orders">Mis Pedidos</string>
     <string name="manage_users">Usuarios</string>
     <string name="sales">Ventas</string>
     <string name="no_dashboard_item_found">No se encontraron productos !</string>
+    <string name="no_dashboard_orders_found">No se encontraron pedidos !</string>
     <string name="no_dashboard_item_user">No se encontraron usuarios !</string>
+    <string name="title_activity_vendor_menu">VendorMenu</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
 </resources>

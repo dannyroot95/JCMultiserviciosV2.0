@@ -43,14 +43,14 @@
                 android:layout_weight="1"
                 android:textColorHint="@color/gray"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <com.jc.sistema.Utils.PoppinsEditText
                     android:layout_width="match_parent"
                     android:id="@+id/edt_dni"
                     android:maxLength="8"
                     android:inputType="number"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="wrap_content"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,7 +97,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_height="wrap_content">
 
-            <EditText
+            <com.jc.sistema.Utils.PoppinsEditText
                 android:layout_width="match_parent"
                 android:id="@+id/edt_email"
                 android:inputType="textEmailAddress"

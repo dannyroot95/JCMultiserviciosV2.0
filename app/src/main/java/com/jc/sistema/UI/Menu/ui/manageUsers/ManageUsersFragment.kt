@@ -1,5 +1,6 @@
 package com.jc.sistema.UI.Menu.ui.manageUsers
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.jc.sistema.Models.Users
 import com.jc.sistema.Providers.AuthenticationProvider
 import com.jc.sistema.Providers.UserProvider
 import com.jc.sistema.R
+import com.jc.sistema.UI.Menu.ui.products.AddProductActivity
 import com.jc.sistema.databinding.FragmentProductBinding
 import com.jc.sistema.databinding.FragmentUsersBinding
 import kotlinx.android.synthetic.main.fragment_users.*
@@ -33,7 +35,7 @@ class ManageUsersFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         manageUsersViewModel =
             ViewModelProvider(this).get(ManageUsersViewModel::class.java)
         binding = FragmentUsersBinding.inflate(inflater,container,false)
@@ -41,17 +43,23 @@ class ManageUsersFragment : Fragment() {
         manageUsersViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
+
+        binding.floatingAddUsers.setOnClickListener {
+            startActivity(Intent(context, AddUserActivity::class.java))
+        }
+
         return binding.root
     }
 
     private fun getItemList(){
-        mUsers.getUserList(this,mAuth.getId())
+        mUsers.getUserList(this)
     }
 
     fun successUserList(userList: ArrayList<Users>) {
         if (userList.size > 0) {
             binding.rvDashboardUsers.visibility = View.VISIBLE
             binding.tvNoDashboardUsersFound.visibility = View.GONE
+            binding.lnProgress.visibility = View.GONE
 
             binding.rvDashboardUsers.layoutManager = GridLayoutManager(activity,2)
             binding.rvDashboardUsers.setHasFixedSize(true)
@@ -60,6 +68,7 @@ class ManageUsersFragment : Fragment() {
             binding.rvDashboardUsers.adapter = adapter
             itemList = userList
         }else {
+            binding.lnProgress.visibility = View.GONE
             binding.rvDashboardUsers.visibility = View.GONE
             binding.tvNoDashboardUsersFound.visibility = View.VISIBLE
         }

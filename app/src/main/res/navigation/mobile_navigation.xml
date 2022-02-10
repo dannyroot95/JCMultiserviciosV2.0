@@ -18,6 +18,12 @@
         tools:layout="@layout/fragment_users" />
 
     <fragment
+        android:id="@+id/nav_orders"
+        android:name="com.jc.sistema.UI.Menu.ui.orders.OrdersFragment"
+        android:label="@string/my_orders"
+        tools:layout="@layout/orders_fragment" />
+
+    <fragment
         android:id="@+id/nav_sales"
         android:name="com.jc.sistema.UI.Menu.ui.sales.SalesFragment"
         android:label="@string/sales"

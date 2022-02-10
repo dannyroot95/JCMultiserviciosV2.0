@@ -13,7 +13,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Main">
-        <activity android:name=".UI.Menu.ui.manageUsers.AddUserActivity"></activity>
+        <activity android:name=".UI.Menu.ui.orders.CartListActivity"></activity>
+        <activity android:name=".UI.Menu.ui.orders.OrdersFragment" />
+        <activity
+            android:name=".UI.Vendor.VendorMenuActivity"
+            android:label="@string/title_activity_vendor_menu"
+            android:theme="@style/Theme.Main.NoActionBar" />
+        <activity
+            android:name=".UI.Menu.VendorMenu"
+            android:label="@string/title_activity_vendor_menu"
+            android:theme="@style/Theme.Main.NoActionBar" />
+        <activity android:name=".UI.Menu.ui.products.EditProductActivity" />
+        <activity android:name=".UI.Menu.ui.manageUsers.AddUserActivity" />
         <activity android:name=".UI.Menu.ui.products.AddProductActivity" />
         <activity
             android:name=".UI.LoginActivity"
@@ -25,7 +36,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".UI.RegisterActivity" />
-        <activity android:name=".UI.Menu.MainMenu" />
+        <activity android:name=".UI.Menu.MenuAdmin" />
         <activity android:name=".MainActivity" />
         <activity
             android:name=".Utils.CaptureCodeBar"

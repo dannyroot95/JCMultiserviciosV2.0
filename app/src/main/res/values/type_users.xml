@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="type_users">
+        <item>-</item>
+        <item>Administrador</item>
+        <item>Vendedor</item>
+        <item>Almacen</item>
+        <item>Vendedor</item>
+    </string-array>
+</resources>

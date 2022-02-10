@@ -39,11 +39,9 @@ class ProductFragment : Fragment() {
             textView.text = it
         })
 
-        val floating : FloatingActionButton = binding.root.findViewById(R.id.floating_add_product)
-            floating.setOnClickListener {
+        binding.floatingAddProduct.setOnClickListener {
                 startActivity(Intent(context,AddProductActivity::class.java))
             }
-
         return binding.root
     }
 
@@ -55,6 +53,7 @@ class ProductFragment : Fragment() {
         if (productList.size > 0) {
             binding.rvDashboardItems.visibility = View.VISIBLE
             binding.tvNoDashboardItemsFound.visibility = View.GONE
+            binding.lnProgress.visibility = View.GONE
 
             binding.rvDashboardItems.layoutManager = LinearLayoutManager(activity)
             binding.rvDashboardItems.setHasFixedSize(true)
@@ -63,6 +62,7 @@ class ProductFragment : Fragment() {
             binding.rvDashboardItems.adapter = adapter
             itemList = productList
         }else {
+            binding.lnProgress.visibility = View.GONE
             binding.rvDashboardItems.visibility = View.GONE
             binding.tvNoDashboardItemsFound.visibility = View.VISIBLE
         }

@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".UI.Menu.ui.products.EditProductActivity">
+
+    <FrameLayout
+        android:id="@+id/fl_product_image"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_product_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/lightgray"
+            android:scaleType="centerCrop"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/iv_add_image_product"
+            android:layout_width="wrap_content"
+            android:backgroundTint="@color/white"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:padding="16dp"
+            android:src="@drawable/ic_camera"
+            tools:ignore="ContentDescription,UnusedAttribute" />
+    </FrameLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:padding="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:id="@+id/til_description"
+                android:hint="Descripcción"
+                android:layout_marginTop="12dp"
+                android:textColorHint="@color/gray"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_height="wrap_content">
+
+                <com.jc.sistema.Utils.PoppinsEditText
+                    android:layout_width="match_parent"
+                    android:id="@+id/edt_description"
+                    android:inputType="textCapSentences"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp"
+                android:layout_height="wrap_content">
+
+                <com.jc.sistema.Utils.PoppinsTextviewMedium
+                    android:layout_width="wrap_content"
+                    android:text="Categoría :"
+                    android:gravity="center"
+                    android:textColor="@color/mainColor"
+                    android:textSize="16dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_height="match_parent"/>
+
+                <Spinner
+                    android:layout_weight="1"
+                    android:id="@+id/sp_category"
+                    android:spinnerMode="dropdown"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:id="@+id/til_code_product"
+                    android:hint="Código de producto"
+                    android:textColorHint="@color/gray"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:layout_height="match_parent">
+
+                    <com.jc.sistema.Utils.PoppinsEditText
+                        android:layout_width="match_parent"
+                        android:id="@+id/edt_code_product"
+                        android:inputType="number"
+                        android:textColor="@color/mainColor"
+                        android:layout_height="match_parent"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/btn_scan_code"
+                    android:layout_width="50dp"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/ic_scan_code_bar"
+                    android:layout_height="wrap_content"
+                    tools:targetApi="m"
+                    tools:ignore="ContentDescription,UnusedAttribute" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:id="@+id/chk_color"
+                    android:text="Colores"
+                    android:layout_height="match_parent"/>
+
+                <Spinner
+                    android:id="@+id/sp_colors"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:layout_marginStart="5dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:id="@+id/linear_colors"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/linear_red"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:layout_marginTop="12dp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:src="@drawable/colorred"
+                        android:layout_gravity="center"
+                        android:layout_height="match_parent"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:id="@+id/til_red_quantity"
+                        android:hint="Cantidad"
+                        android:layout_marginLeft="5dp"
+                        android:textColorHint="@color/gray"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                        android:layout_height="wrap_content">
+
+                        <com.jc.sistema.Utils.PoppinsEditText
+                            android:id="@+id/edt_red_quantity"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:inputType="numberDecimal" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_delete_color_red"
+                        android:layout_width="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_delete_color"
+                        android:layout_height="match_parent"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_green"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:layout_marginTop="12dp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:src="@drawable/colorgreen"
+                        android:layout_gravity="center"
+                        android:layout_height="match_parent"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:id="@+id/til_green_quantity"
+                        android:hint="Cantidad"
+                        android:layout_marginLeft="5dp"
+                        android:textColorHint="@color/gray"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                        android:layout_height="wrap_content">
+
+                        <com.jc.sistema.Utils.PoppinsEditText
+                            android:id="@+id/edt_green_quantity"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:inputType="numberDecimal" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_delete_color_green"
+                        android:layout_width="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_delete_color"
+                        android:layout_height="match_parent"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_white"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:layout_marginTop="12dp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:src="@drawable/colorwhite"
+                        android:layout_gravity="center"
+                        android:layout_height="match_parent"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:id="@+id/til_white_quantity"
+                        android:hint="Cantidad"
+                        android:layout_marginLeft="5dp"
+                        android:textColorHint="@color/gray"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                        android:layout_height="wrap_content">
+
+                        <com.jc.sistema.Utils.PoppinsEditText
+                            android:id="@+id/edt_white_quantity"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:inputType="numberDecimal" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_delete_color_white"
+                        android:layout_width="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_delete_color"
+                        android:layout_height="match_parent"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:id="@+id/chk_price_pza"
+                    android:layout_width="wrap_content"
+                    android:text="Precio por Pieza"
+                    android:layout_height="match_parent"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/til_price_for_pza"
+                    android:hint="Precio"
+                    app:suffixText="S/"
+                    android:visibility="gone"
+                    android:layout_marginLeft="5dp"
+                    android:textColorHint="@color/gray"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:layout_height="wrap_content">
+
+                    <com.jc.sistema.Utils.PoppinsEditText
+                        android:layout_width="match_parent"
+                        android:id="@+id/edt_price_for_pza"
+                        android:inputType="numberDecimal"
+                        android:layout_height="wrap_content"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:id="@+id/chk_price_doc"
+                    android:layout_width="wrap_content"
+                    android:text="Precio por Docena"
+                    android:layout_height="match_parent"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/til_price_for_doc"
+                    android:hint="Precio"
+                    android:visibility="gone"
+                    app:suffixText="S/"
+                    android:layout_marginStart="5dp"
+                    android:textColorHint="@color/gray"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:layout_height="wrap_content">
+
+                    <com.jc.sistema.Utils.PoppinsEditText
+                        android:layout_width="match_parent"
+                        android:id="@+id/edt_price_for_doc"
+                        android:inputType="numberDecimal"
+                        android:layout_height="wrap_content"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:id="@+id/chk_price_jgo"
+                    android:layout_width="wrap_content"
+                    android:text="Precio por Juego"
+                    android:layout_height="match_parent"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/til_price_for_jgo"
+                    android:hint="Precio"
+                    android:visibility="gone"
+                    android:layout_marginStart="5dp"
+                    android:textColorHint="@color/gray"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:layout_height="wrap_content">
+
+                    <com.jc.sistema.Utils.PoppinsEditText
+                        android:layout_width="match_parent"
+                        android:id="@+id/edt_price_for_jgo"
+                        android:inputType="numberDecimal"
+                        android:layout_height="wrap_content"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:id="@+id/til_stock"
+                android:hint="Stock"
+                android:visibility="gone"
+                android:layout_marginTop="12dp"
+                android:textColorHint="@color/gray"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_height="wrap_content">
+
+                <com.jc.sistema.Utils.PoppinsEditText
+                    android:layout_width="match_parent"
+                    android:id="@+id/edt_stock"
+                    android:inputType="numberDecimal"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginLeft="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="10dp"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:id="@+id/btn_update_product"
+                    app:cornerRadius="12dp"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:backgroundTint="#2680E5"
+                    android:text="ACTUALIZAR PRODUCTO"
+                    android:layout_height="60dp"/>
+
+                <View
+                    android:layout_width="5dp"
+                    android:layout_height="wrap_content"/>
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:id="@+id/btn_delete_product"
+                    app:cornerRadius="12dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#F51E09"
+                    android:layout_width="match_parent"
+                    android:text="BORRAR PRODUCTO"
+                    android:layout_height="60dp"/>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

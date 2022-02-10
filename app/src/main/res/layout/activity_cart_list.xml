@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    tools:context=".UI.Menu.ui.orders.CartListActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:padding="8dp"
+        android:background="@color/mainColor"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+
+        <com.jc.sistema.Utils.PoppinsTextviewMedium
+            android:layout_width="match_parent"
+            android:text="Mi Carrito"
+            android:textSize="16dp"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:id="@+id/btn_search_product"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_scan_code_bar"
+        android:backgroundTint="@color/lightgray"
+        android:contentDescription="TODO"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

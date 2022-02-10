@@ -27,10 +27,9 @@ private var list: ArrayList<Users>
             Picasso.with(context).load(model.image).into(holder.binding.itImageUser)
         }
         holder.binding.itName.text = model.full_name
-        if (model.type_user == Constants.SUPER_USER){
-            holder.binding.itTypeUser.setTextColor(Color.parseColor("#B27A00"))
-            holder.binding.itTypeUser.text = model.type_user
-        }
+        holder.binding.itTypeUser.setTextColor(Color.parseColor("#B27A00"))
+        holder.binding.itTypeUser.text = model.type_user
+
     }
 
     override fun getItemCount(): Int {
