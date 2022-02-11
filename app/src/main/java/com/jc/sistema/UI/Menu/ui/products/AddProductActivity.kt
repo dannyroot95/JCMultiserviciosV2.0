@@ -1,9 +1,13 @@
 package com.jc.sistema.UI.Menu.ui.products
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -11,6 +15,8 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.zxing.integration.android.IntentIntegrator
 import com.jc.sistema.Adapters.ColorAdapter
@@ -19,28 +25,25 @@ import com.jc.sistema.Models.Product
 import com.jc.sistema.Providers.ImageProvider
 import com.jc.sistema.Providers.ProductProvider
 import com.jc.sistema.R
-import com.jc.sistema.Utils.BaseActivity
-import com.jc.sistema.Utils.CaptureCodeBar
-import com.jc.sistema.Utils.Constants
-import com.jc.sistema.Utils.FileUtil
+import com.jc.sistema.Utils.*
 import com.jc.sistema.databinding.ActivityAddProductBinding
 import kotlinx.android.synthetic.main.activity_add_product.*
 import top.defaults.colorpicker.ColorPickerPopup
 import java.io.File
+import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
 
 class AddProductActivity : BaseActivity() {
 
     private lateinit var binding : ActivityAddProductBinding
-    private var mImageFileProfile: File? = null
-    private lateinit var mImageProvider: ImageProvider
     private lateinit var mProductProvider: ProductProvider
     private var category : String  = ""
-    var urlImageProduct = ""
     private var adapter =  ColorAdapter(this, emptyList())
     private var items = ArrayList<Colors>()
     private var valueColor : Int = 0
+    private var mSelectedImageFileUri: Uri? = null
+    private var mImageURL : String = ""
 
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -58,7 +61,6 @@ class AddProductActivity : BaseActivity() {
         adapter = ColorAdapter(this, items)
         binding.rvColors.adapter = adapter
 
-        mImageProvider = ImageProvider("products")
         mProductProvider = ProductProvider()
 
         val adapterSpinnerCategory = ArrayAdapter.createFromResource(
@@ -134,7 +136,7 @@ class AddProductActivity : BaseActivity() {
             initScanner()
         }
         binding.ivAddImageProduct.setOnClickListener {
-            openGallery()
+            setupPermission()
         }
         binding.btnRegisterProduct.setOnClickListener {
             register(items)
@@ -163,14 +165,24 @@ class AddProductActivity : BaseActivity() {
                 var sum = 0
                 val quantity = binding.edtStockColor.text.toString().toInt()
                 val data = Colors(valueColor,quantity)
-                items.add(data)
-                adapter.notifyDataSetChanged()
-
-                for(i in items){
-                    sum += i.quantity
+                var c = 0
+                if (items.size >= 0){
+                    for (i in 0 until items.size){
+                        if (items[i].value == valueColor){
+                            c += 1
+                        }
+                    }
+                    if (c >= 1){
+                        Toast.makeText(this,"Ya existe en la lista este color!",Toast.LENGTH_SHORT).show()
+                    }else{
+                        items.add(data)
+                        adapter.notifyDataSetChanged()
+                        for(j in items){
+                            sum += j.quantity
+                        }
+                        binding.edtStock.setText(sum.toString())
+                    }
                 }
-
-                binding.edtStock.setText(sum.toString())
 
             }else{
                 Toast.makeText(this,"Ingrese la cantidad",Toast.LENGTH_SHORT).show()
@@ -180,16 +192,6 @@ class AddProductActivity : BaseActivity() {
 
     }
 
-    private fun openGallery() {
-        if (binding.edtDescription.text.toString().isNotEmpty()){
-            val galleryIntent = Intent(Intent.ACTION_GET_CONTENT)
-            galleryIntent.type = "image/*"
-            startActivityForResult(galleryIntent, Constants.GALLERY_REQUEST)
-        }
-        else{
-            Toast.makeText(this, "Ingrese el nombre del producto...", Toast.LENGTH_SHORT).show()
-        }
-    }
 
     private fun initScanner(){
         val integrator = IntentIntegrator(this)
@@ -201,84 +203,21 @@ class AddProductActivity : BaseActivity() {
         integrator.initiateScan()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        val scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == Constants.GALLERY_REQUEST && resultCode == RESULT_OK) {
-            try {
-                showDialog("Subiendo foto...")
-                mImageFileProfile = FileUtil().from(this, Objects.requireNonNull(data)!!.data!!)
-                mImageProvider.saveImage(
-                    this,
-                    mImageFileProfile!!,
-                    binding.edtDescription.text.toString()
-                ).addOnCompleteListener { task ->
-                    if (task.isSuccessful){
-                        mImageProvider.getStorage().downloadUrl.addOnSuccessListener { uri ->
-                            urlImageProduct = uri.toString()
-                            binding.ivProductImage.setImageBitmap(
-                                BitmapFactory.decodeFile(
-                                    mImageFileProfile!!.absolutePath
-                                )
-                            )
-                            hideDialog()
-                            Toast.makeText(this, "Imagen subida!", Toast.LENGTH_SHORT).show()
-                        }
-                    }else{
-                        hideDialog()
-                        Toast.makeText(this, "Error al subir imagen", Toast.LENGTH_SHORT).show()
-                    }
-                }.addOnCanceledListener {
-                    hideDialog()
-                    Toast.makeText(this, "Error al subir imagen", Toast.LENGTH_SHORT).show()
-                }.addOnFailureListener {
-                    hideDialog()
-                    Toast.makeText(this, "Error al subir imagen", Toast.LENGTH_SHORT).show()
-                }
-            }catch (e: Exception){
-                hideDialog()
-                Toast.makeText(this, "Error al subir imagen", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        if (scanResult != null) {
-            if (scanResult.contents == null) {
-                Toast.makeText(this, "Cancelado", Toast.LENGTH_LONG).show()
-            } else {
-                binding.edtCodeProduct.setText(scanResult.contents)
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
-        }
-    }
-
-
-
     private fun register(list : ArrayList<Colors>) {
         val description = binding.edtDescription.text.toString()
         val code = binding.edtCodeProduct.text.toString()
         val priceForPza = binding.edtPriceForPza.text.toString()
         val priceForDoc = binding.edtPriceForDoc.text.toString()
         val priceForJgo = binding.edtPriceForJgo.text.toString()
+        val stock = binding.edtStock.text.toString()
 
-        val sum   : Int
-
-        var stock = binding.edtStock.text.toString()
-
-        if (binding.chkColor.isChecked){
-            //stock = sum.toString()
-        }
-
-       // val color = Colors(red, green, white)
-
-        if (urlImageProduct != "" && description.isNotEmpty() && code.isNotEmpty() && stock.isNotEmpty()){
+        if (mImageURL != "" && description.isNotEmpty() && code.isNotEmpty() && stock.isNotEmpty()){
 
             showDialog("Registrando...")
 
             val product = Product(
                 code,
-                urlImageProduct,
+                mImageURL,
                 description,
                 category,
                 code,
@@ -299,6 +238,82 @@ class AddProductActivity : BaseActivity() {
 
     }
 
+    private fun setupPermission() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            Constants.showImageChooser(this)
+        } else {
+            /*Requests permissions to be granted to this application. These permissions
+             must be requested in your manifest, they should not be granted to your app,
+             and they should have protection level*/
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                Constants.READ_STORAGE_PERMISSION_CODE
+            )
+        }
+    }
+
+    /**
+     * This function will identify the result of runtime permission after the user allows or deny permission based on the unique code.
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == Constants.READ_STORAGE_PERMISSION_CODE) {
+            //If permission is granted
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Constants.showImageChooser(this)
+            } else {
+                //Displaying another toast if permission is not granted
+                Toast.makeText(
+                    this,
+                    "Permiso de lectura denegado!",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK
+            && requestCode == Constants.PICK_IMAGE_REQUEST_CODE
+            && data!!.data != null
+        ) {
+
+            mSelectedImageFileUri = data.data!!
+
+            try {
+                uploadProductImage()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun uploadProductImage() {
+        showDialog("Subiendo imagen...")
+        ImageProvider().uploadImageToCloudStorage(this,mSelectedImageFileUri,Constants.IMAGE_PROFILE)
+    }
+
+    fun imageUploadSuccess(imageURL: String){
+        GlideLoader(this).loadPicture(mSelectedImageFileUri!!, binding.ivProductImage)
+        hideDialog()
+        mImageURL = imageURL
+        Toast.makeText(this, "Subido!", Toast.LENGTH_LONG).show()
+    }
 
     fun productUploadSuccess(){
         hideDialog()

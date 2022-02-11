@@ -26,7 +26,6 @@
         <ImageView
             android:id="@+id/iv_add_image_product"
             android:layout_width="wrap_content"
-            android:backgroundTint="@color/white"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:foreground="?attr/selectableItemBackgroundBorderless"
@@ -38,6 +37,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -98,7 +98,6 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_weight="1"
-                    android:enabled="false"
                     android:id="@+id/til_code_product"
                     android:hint="Código de producto"
                     android:textColorHint="@color/gray"
@@ -125,6 +124,7 @@
                     tools:ignore="ContentDescription,UnusedAttribute" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
@@ -137,150 +137,81 @@
                     android:text="Colores"
                     android:layout_height="match_parent"/>
 
-                <Spinner
-                    android:id="@+id/sp_colors"
-                    android:layout_weight="1"
-                    android:visibility="gone"
-                    android:layout_marginStart="5dp"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:visibility="gone"
                 android:id="@+id/linear_colors"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:id="@+id/linear_red"
+                <Button
+                    android:layout_width="wrap_content"
+                    android:id="@+id/btnPickColor"
+                    android:text="Color"
+                    android:textColor="#FFF"
+                    android:backgroundTint="@color/gray"
+                    android:layout_height="match_parent"/>
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:visibility="gone"
-                    android:layout_marginTop="12dp"
+                    android:hint="Cantidad"
+                    android:id="@+id/teal_stock_color"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="8dp"
                     android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:src="@drawable/colorred"
-                        android:layout_gravity="center"
-                        android:layout_height="match_parent"/>
+                    <com.jc.sistema.Utils.PoppinsEditText
+                        android:inputType="number"
+                        android:id="@+id/edt_stock_color"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:id="@+id/til_red_quantity"
-                        android:hint="Cantidad"
-                        android:layout_marginLeft="5dp"
-                        android:textColorHint="@color/gray"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                        android:layout_height="wrap_content">
+                </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.jc.sistema.Utils.PoppinsEditText
-                            android:id="@+id/edt_red_quantity"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:inputType="numberDecimal" />
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:backgroundTint="#5BBD00"
+                    android:id="@+id/btnAdd"
+                    android:src="@drawable/ic_check_white"
+                    android:layout_marginStart="5dp"
+                    android:layout_height="match_parent"/>
 
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <ImageView
-                        android:id="@+id/iv_delete_color_red"
-                        android:layout_width="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:foreground="?attr/selectableItemBackgroundBorderless"
-                        android:src="@drawable/ic_delete_color"
-                        android:layout_height="match_parent"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linear_green"
-                    android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:visibility="gone"
-                    android:layout_marginTop="12dp"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:src="@drawable/colorgreen"
-                        android:layout_gravity="center"
-                        android:layout_height="match_parent"/>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:id="@+id/til_green_quantity"
-                        android:hint="Cantidad"
-                        android:layout_marginLeft="5dp"
-                        android:textColorHint="@color/gray"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                        android:layout_height="wrap_content">
-
-                        <com.jc.sistema.Utils.PoppinsEditText
-                            android:id="@+id/edt_green_quantity"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:inputType="numberDecimal" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <ImageView
-                        android:id="@+id/iv_delete_color_green"
-                        android:layout_width="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:foreground="?attr/selectableItemBackgroundBorderless"
-                        android:src="@drawable/ic_delete_color"
-                        android:layout_height="match_parent"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linear_white"
-                    android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:visibility="gone"
-                    android:layout_marginTop="12dp"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:src="@drawable/colorwhite"
-                        android:layout_gravity="center"
-                        android:layout_height="match_parent"/>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:id="@+id/til_white_quantity"
-                        android:hint="Cantidad"
-                        android:layout_marginLeft="5dp"
-                        android:textColorHint="@color/gray"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                        android:layout_height="wrap_content">
-
-                        <com.jc.sistema.Utils.PoppinsEditText
-                            android:id="@+id/edt_white_quantity"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:inputType="numberDecimal" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <ImageView
-                        android:id="@+id/iv_delete_color_white"
-                        android:layout_width="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:foreground="?attr/selectableItemBackgroundBorderless"
-                        android:src="@drawable/ic_delete_color"
-                        android:layout_height="match_parent"/>
-
-                </LinearLayout>
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/ln_rv_colors"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_weight="1"
+                android:layout_marginTop="5dp"
+                android:layout_height="0dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:id="@+id/rv_colors"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:id="@+id/til_stock"
+                android:hint="Stock"
+                android:layout_marginTop="12dp"
+                android:textColorHint="@color/gray"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_height="wrap_content">
+
+                <com.jc.sistema.Utils.PoppinsEditText
+                    android:layout_width="match_parent"
+                    android:id="@+id/edt_stock"
+                    android:inputType="number"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -380,61 +311,17 @@
 
             </LinearLayout>
 
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:id="@+id/til_stock"
-                android:hint="Stock"
-                android:visibility="gone"
-                android:layout_marginTop="12dp"
-                android:textColorHint="@color/gray"
+            <com.google.android.material.button.MaterialButton
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                android:layout_height="wrap_content">
-
-                <com.jc.sistema.Utils.PoppinsEditText
-                    android:layout_width="match_parent"
-                    android:id="@+id/edt_stock"
-                    android:inputType="numberDecimal"
-                    android:layout_height="wrap_content"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <LinearLayout
+                android:id="@+id/btn_update_product"
+                app:cornerRadius="12dp"
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
                 android:layout_marginLeft="12dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="18dp"
                 android:layout_marginBottom="10dp"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.button.MaterialButton
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                    android:id="@+id/btn_update_product"
-                    app:cornerRadius="12dp"
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:backgroundTint="#2680E5"
-                    android:text="ACTUALIZAR PRODUCTO"
-                    android:layout_height="60dp"/>
-
-                <View
-                    android:layout_width="5dp"
-                    android:layout_height="wrap_content"/>
-
-                <com.google.android.material.button.MaterialButton
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                    android:id="@+id/btn_delete_product"
-                    app:cornerRadius="12dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="#F51E09"
-                    android:layout_width="match_parent"
-                    android:text="BORRAR PRODUCTO"
-                    android:layout_height="60dp"/>
-
-            </LinearLayout>
-
-
+                android:text="ACTUALIZAR PRODUCTO"
+                android:layout_height="60dp"/>
 
         </LinearLayout>
     </ScrollView>

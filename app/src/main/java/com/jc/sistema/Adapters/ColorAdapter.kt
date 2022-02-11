@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jc.sistema.Models.Colors
 import com.jc.sistema.UI.Menu.ui.products.AddProductActivity
+import com.jc.sistema.UI.Menu.ui.products.EditProductActivity
 import com.jc.sistema.databinding.ItemsColorsBinding
 
 class ColorAdapter(private val activity: Activity, private var list: List<Colors>):  RecyclerView.Adapter<ColorAdapter.MyViewHolder>()  {
@@ -29,6 +30,9 @@ class ColorAdapter(private val activity: Activity, private var list: List<Colors
                is AddProductActivity -> {
                    activity.deleteItem(position)
                }
+               is EditProductActivity ->{
+                    activity.deleteItem(position)
+                }
             }
 
         }
@@ -37,11 +41,17 @@ class ColorAdapter(private val activity: Activity, private var list: List<Colors
                 is AddProductActivity -> {
                     activity.subtract(position)
                 }
+                is EditProductActivity ->{
+                    activity.subtract(position)
+                }
             }
         }
         holder.binding.itemAdd.setOnClickListener {
             when(activity){
                 is AddProductActivity -> {
+                    activity.add(position)
+                }
+                is EditProductActivity ->{
                     activity.add(position)
                 }
             }

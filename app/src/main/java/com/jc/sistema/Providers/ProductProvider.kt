@@ -1,6 +1,8 @@
 package com.jc.sistema.Providers
 
+import android.app.Activity
 import android.content.Context
+import android.net.Uri
 import android.widget.Toast
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -12,9 +14,11 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.jc.sistema.Models.Product
 import com.jc.sistema.UI.Menu.ui.products.AddProductActivity
+import com.jc.sistema.UI.Menu.ui.products.EditProductActivity
 import com.jc.sistema.UI.Menu.ui.products.ProductFragment
 import com.jc.sistema.Utils.Constants
 import com.jc.sistema.Utils.TinyDB
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -25,16 +29,41 @@ class ProductProvider {
 
     private val mFireStore = FirebaseFirestore.getInstance()
 
-    fun create(product: Product, activity : AddProductActivity, code : String){
+    fun create(product: Product, activity : Activity, code : String){
         mFireStore.collection(Constants.PRODUCTS).document(code).set(product, SetOptions.merge())
             .addOnSuccessListener {
-                activity.productUploadSuccess()
+                when(activity) {
+                    is AddProductActivity ->{
+                        activity.productUploadSuccess()
+                    }
+                    is EditProductActivity ->{
+                        activity.productUploadSuccess()
+                    }
+                }
+
         }.addOnFailureListener {
-                activity.hideDialog()
-                Toast.makeText(activity,"ERROR!",Toast.LENGTH_SHORT).show()
+                when(activity) {
+                    is AddProductActivity ->{
+                        activity.hideDialog()
+                        Toast.makeText(activity,"ERROR!",Toast.LENGTH_SHORT).show()
+                    }
+                    is EditProductActivity ->{
+                        activity.hideDialog()
+                        Toast.makeText(activity,"ERROR!",Toast.LENGTH_SHORT).show()
+                    }
+                }
+
             }.addOnCanceledListener {
-                activity.hideDialog()
-                Toast.makeText(activity,"ERROR!",Toast.LENGTH_SHORT).show()
+                when(activity) {
+                    is AddProductActivity ->{
+                        activity.hideDialog()
+                        Toast.makeText(activity,"ERROR!",Toast.LENGTH_SHORT).show()
+                    }
+                    is EditProductActivity ->{
+                        activity.hideDialog()
+                        Toast.makeText(activity,"ERROR!",Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
     }
 
@@ -60,8 +89,15 @@ class ProductProvider {
             val productList: ArrayList<Product> = ArrayList()
             for (i in snapshot.documents){
                 val product = i.toObject(Product::class.java)!!
-                getBitmapFromURL(product.image,fragment.requireContext(),product.id)
-                productList.add(product)
+                val path: String = fragment.requireContext().getExternalFilesDir(null).toString()+"/"+product.id+".jpg"
+                val file = File(path)
+                if (file.exists()){
+                    productList.add(product)
+                }else{
+                    getBitmapFromURL(product.image,fragment.requireContext(),product.id)
+                    productList.add(product)
+                }
+
             }
 
             db.putListProduct(Constants.PRODUCTS,productList)
