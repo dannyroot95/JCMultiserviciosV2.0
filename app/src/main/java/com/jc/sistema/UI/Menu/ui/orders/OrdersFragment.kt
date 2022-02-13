@@ -56,6 +56,7 @@ class OrdersFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         getOrderList()
+        OrderProvider().fetchData(this)
     }
 
 }

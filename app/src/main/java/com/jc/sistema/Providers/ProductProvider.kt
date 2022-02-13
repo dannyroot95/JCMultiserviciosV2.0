@@ -65,12 +65,10 @@ class ProductProvider {
                     }
                 }
             }
-    }
+         }
 
     fun geProductList(fragment : ProductFragment){
-
         val db = TinyDB(fragment.requireContext())
-
         if (db.getListProduct(Constants.PRODUCTS,Product::class.java).isNotEmpty()){
             val productList: ArrayList<Product> = db.getListProduct(Constants.PRODUCTS,Product::class.java)
             fragment.successProductList(productList)
@@ -80,7 +78,6 @@ class ProductProvider {
         else{
             fetchData(fragment)
         }
-
     }
 
     private fun fetchData(fragment : ProductFragment){
@@ -97,9 +94,7 @@ class ProductProvider {
                     getBitmapFromURL(product.image,fragment.requireContext(),product.id)
                     productList.add(product)
                 }
-
             }
-
             db.putListProduct(Constants.PRODUCTS,productList)
             fragment.successProductList(productList)
         }
@@ -116,6 +111,30 @@ class ProductProvider {
             storageRef.getFile(mFolder).addOnSuccessListener {
             }
         }
+    }
+
+    fun deleteProduct(id : String , activity: EditProductActivity){
+        mFireStore.collection(Constants.PRODUCTS).document(id).delete().addOnCompleteListener {
+            if (it.isSuccessful){
+                activity.hideDialog()
+                Toast.makeText(activity,"Producto eliminado!",Toast.LENGTH_SHORT).show()
+                activity.finish()
+            }
+            else{
+                activity.hideDialog()
+                Toast.makeText(activity,"No se pudo elimianr el producto!",Toast.LENGTH_SHORT).show()
+            }
+        }.addOnCanceledListener {
+            activity.hideDialog()
+            Toast.makeText(activity,"No se pudo elimianr el producto!",Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener {
+            activity.hideDialog()
+            Toast.makeText(activity,"No se pudo elimianr el producto!",Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun addToCart(product: Product){
+
     }
 
 }

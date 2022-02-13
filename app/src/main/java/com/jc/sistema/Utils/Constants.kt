@@ -29,6 +29,7 @@ object Constants {
     const val KEY_ADAPTER = "key_adapter"
     const val READ_STORAGE_PERMISSION_CODE = 2
     const val PICK_IMAGE_REQUEST_CODE = 2
+    const val CART_ITEMS = "cart_items"
 
 fun showImageChooser(activity: Activity) {
     // An intent for launching the image selection of phone storage.

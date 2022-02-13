@@ -203,7 +203,12 @@ class EditProductActivity : BaseActivity() {
                 Toast.makeText(this,"Ingrese la cantidad",Toast.LENGTH_SHORT).show()
             }
 
-    }
+         }
+
+      binding.btnDeleteProduct.setOnClickListener {
+          showDialog("Eliminando producto...")
+          ProductProvider().deleteProduct(data.id,this)
+      }
 
     }
 
@@ -253,8 +258,6 @@ class EditProductActivity : BaseActivity() {
             binding.tilPriceForJgo.visibility = View.VISIBLE
             binding.edtPriceForJgo.setText(data.price_for_jgo)
         }
-
-
     }
 
 
@@ -282,7 +285,7 @@ class EditProductActivity : BaseActivity() {
 
         if (mImageURL != "" && description.isNotEmpty() && code.isNotEmpty() && stock.isNotEmpty()){
 
-            showDialog("Registrando...")
+            showDialog("Actualizando...")
 
             val product = Product(
                 code,
@@ -388,7 +391,7 @@ class EditProductActivity : BaseActivity() {
         hideDialog()
         Toast.makeText(
             this,
-            "Producto subido!",
+            "Producto actualizado!",
             Toast.LENGTH_SHORT
         ).show()
         finish()

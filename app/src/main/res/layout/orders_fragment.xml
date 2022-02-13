@@ -85,7 +85,7 @@
             android:src="@drawable/ic_order"
             android:layout_height="90dp"/>
 
-        <com.jc.sistema.Utils.PoppinsTextviewRegular
+        <com.jc.sistema.Utils.PoppinsTextviewBold
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

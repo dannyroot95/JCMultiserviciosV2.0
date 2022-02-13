@@ -4,14 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@color/white"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".UI.Menu.ui.orders.CartListActivity">
+
+    <LinearLayout
+        android:id="@+id/ln_title"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        tools:ignore="MissingConstraints">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:padding="8dp"
         android:background="@color/mainColor"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints">
 
@@ -24,6 +32,46 @@
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ln_no_items_cart"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_gravity="center"
+                android:layout_width="150dp"
+                android:src="@drawable/no_items_cart"
+                android:layout_height="150dp"/>
+
+            <com.jc.sistema.Utils.PoppinsTextviewBold
+                android:layout_width="wrap_content"
+                android:text="Sin productos en el carrito!"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:id="@+id/rv_cart"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints" />
+
+        <ProgressBar
+            android:id="@+id/lnProgress"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_height="0dp"/>
+
+ </LinearLayout>
+
+
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"

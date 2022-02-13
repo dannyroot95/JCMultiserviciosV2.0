@@ -288,18 +288,23 @@ class AddProductActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK
-            && requestCode == Constants.PICK_IMAGE_REQUEST_CODE
-            && data!!.data != null
-        ) {
-
+        val scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == Constants.PICK_IMAGE_REQUEST_CODE && data!!.data != null) {
             mSelectedImageFileUri = data.data!!
-
             try {
                 uploadProductImage()
             } catch (e: IOException) {
                 e.printStackTrace()
             }
+        }
+        if (scanResult != null) {
+            if (scanResult.contents == null) {
+                //Toast.makeText(this, "Cancelado", Toast.LENGTH_LONG).show()
+            } else {
+                binding.edtCodeProduct.setText(scanResult.contents)
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
         }
     }
 

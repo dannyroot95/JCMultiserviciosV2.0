@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.jc.sistema.Providers.OrderProvider
 import com.jc.sistema.R
 
 class SalesFragment : Fragment() {
@@ -28,4 +29,10 @@ class SalesFragment : Fragment() {
         })
         return root
     }
+
+    override fun onResume() {
+        super.onResume()
+        OrderProvider().fetchData(this)
+    }
+
 }

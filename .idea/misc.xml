@@ -5,9 +5,18 @@
       <map>
         <entry key="..\:/Users/Danny/AndroidStudioProjects/Flutter/Main/app/src/main/res/drawable/border.xml" value="0.178125" />
         <entry key="..\:/Users/Danny/AndroidStudioProjects/Flutter/Main/app/src/main/res/layout/activity_add_product.xml" value="0.2" />
+        <entry key="..\:/Users/Danny/AndroidStudioProjects/Flutter/Main/app/src/main/res/layout/activity_cart_list.xml" value="0.2" />
         <entry key="..\:/Users/Danny/AndroidStudioProjects/Flutter/Main/app/src/main/res/layout/activity_edit_product.xml" value="0.10461956521739131" />
+        <entry key="..\:/Users/Danny/AndroidStudioProjects/Flutter/Main/app/src/main/res/layout/cart_items_list.xml" value="0.4118942731277533" />
+        <entry key="..\:/Users/Danny/AndroidStudioProjects/Flutter/Main/app/src/main/res/layout/custom_dialog.xml" value="0.1" />
+        <entry key="..\:/Users/Danny/AndroidStudioProjects/Flutter/Main/app/src/main/res/layout/dialog_product.xml" value="0.2" />
         <entry key="..\:/Users/Danny/AndroidStudioProjects/Flutter/Main/app/src/main/res/layout/dialog_progress.xml" value="0.16197916666666667" />
+        <entry key="..\:/Users/Danny/AndroidStudioProjects/Flutter/Main/app/src/main/res/layout/dialog_slow_internet.xml" value="0.16197916666666667" />
+        <entry key="..\:/Users/Danny/AndroidStudioProjects/Flutter/Main/app/src/main/res/layout/fragment_product.xml" value="0.1" />
+        <entry key="..\:/Users/Danny/AndroidStudioProjects/Flutter/Main/app/src/main/res/layout/fragment_users.xml" value="0.1" />
+        <entry key="..\:/Users/Danny/AndroidStudioProjects/Flutter/Main/app/src/main/res/layout/item_product_layout.xml" value="0.268" />
         <entry key="..\:/Users/Danny/AndroidStudioProjects/Flutter/Main/app/src/main/res/layout/items_colors.xml" value="0.2" />
+        <entry key="..\:/Users/Danny/AndroidStudioProjects/Flutter/Main/app/src/main/res/layout/orders_fragment.xml" value="0.1" />
       </map>
     </option>
   </component>

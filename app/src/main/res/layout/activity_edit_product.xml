@@ -98,6 +98,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_weight="1"
+                    android:enabled="false"
                     android:id="@+id/til_code_product"
                     android:hint="Código de producto"
                     android:textColorHint="@color/gray"
@@ -116,6 +117,7 @@
                 <ImageView
                     android:id="@+id/btn_scan_code"
                     android:layout_width="50dp"
+                    android:visibility="gone"
                     android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:layout_marginStart="8dp"
                     android:src="@drawable/ic_scan_code_bar"
@@ -311,17 +313,43 @@
 
             </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                android:id="@+id/btn_update_product"
-                app:cornerRadius="12dp"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_marginLeft="12dp"
+                android:orientation="horizontal"
                 android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
                 android:layout_marginTop="18dp"
-                android:layout_marginBottom="10dp"
-                android:text="ACTUALIZAR PRODUCTO"
-                android:layout_height="60dp"/>
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:id="@+id/btn_update_product"
+                    app:cornerRadius="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="10dp"
+                    android:backgroundTint="#117A65"
+                    android:textColor="@color/white"
+                    android:text="ACTUALIZAR"
+                    android:layout_height="60dp"/>
+
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content"/>
+
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:id="@+id/btn_delete_product"
+                    app:cornerRadius="12dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:layout_width="match_parent"
+                    android:backgroundTint="@color/red"
+                    android:layout_marginBottom="10dp"
+                    android:text="ELIMINAR"
+                    android:layout_height="60dp"/>
+
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

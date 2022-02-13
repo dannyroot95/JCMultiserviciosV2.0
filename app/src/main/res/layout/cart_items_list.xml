@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/linear_item"
+    android:layout_marginLeft="12dp"
+    android:layout_marginRight="12dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:foreground="?attr/selectableItemBackgroundBorderless"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_item_image"
+                android:layout_width="50dp"
+                android:scaleType="centerCrop"
+                android:layout_height="50dp"/>
+
+            <LinearLayout
+                android:id="@+id/ll_dashboard_item_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.jc.sistema.Utils.PoppinsTextviewBold
+                    android:id="@+id/tv_item_description"
+                    android:layout_marginStart="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/semidark"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    tools:text="Item Name" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="2dp"
+                    android:layout_height="wrap_content">
+
+                    <com.jc.sistema.Utils.PoppinsTextviewRegular
+                        android:layout_marginStart="2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#566573"
+                        android:textSize="12dp"
+                        android:text="Cantidad: " />
+
+                    <com.jc.sistema.Utils.PoppinsTextviewSemiBold
+                        android:id="@+id/tv_quantity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="14dp"
+                        tools:text="1" />
+
+                    <com.jc.sistema.Utils.PoppinsTextviewSemiBold
+                        android:id="@+id/tv_value"
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="12dp"
+                        tools:text="Pieza" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="2dp"
+                    android:layout_height="wrap_content">
+
+                    <com.jc.sistema.Utils.PoppinsTextviewRegular
+                        android:layout_marginStart="2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#566573"
+                        android:textSize="12dp"
+                        android:text="Precio por" />
+
+                    <com.jc.sistema.Utils.PoppinsTextviewRegular
+                        android:layout_marginStart="2dp"
+                        android:id="@+id/price_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#566573"
+                        android:textSize="12dp"
+                        tools:text="Pieza(s): S/" />
+
+                    <com.jc.sistema.Utils.PoppinsTextviewSemiBold
+                        android:id="@+id/tv_price_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/mainColor"
+                        android:textSize="14dp"
+                        tools:text="Item store" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:background="@color/gray"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_height="1dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="right"
+                    android:layout_marginStart="2dp"
+                    android:layout_height="wrap_content">
+
+                    <com.jc.sistema.Utils.PoppinsTextviewRegular
+                        android:layout_marginStart="2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#566573"
+                        android:textSize="12dp"
+                        android:text="Precio total: S/" />
+
+                    <com.jc.sistema.Utils.PoppinsTextviewSemiBold
+                        android:id="@+id/tv_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/red"
+                        android:textSize="14dp"
+                        tools:text="Item store" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
