@@ -1,8 +1,6 @@
 package com.jc.sistema.Providers
 
-import android.app.Activity
 import android.content.Context
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
@@ -11,7 +9,6 @@ import com.google.firebase.storage.ktx.storage
 import com.jc.sistema.Models.Order
 import com.jc.sistema.Models.Product
 import com.jc.sistema.UI.Menu.ui.orders.OrdersFragment
-import com.jc.sistema.UI.Menu.ui.products.ProductFragment
 import com.jc.sistema.Utils.Constants
 import com.jc.sistema.Utils.TinyDB
 import kotlinx.coroutines.CoroutineScope

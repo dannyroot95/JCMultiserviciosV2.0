@@ -34,11 +34,12 @@ class ProductFragment : Fragment() {
         productViewModel =
             ViewModelProvider(this).get(ProductViewModel::class.java)
         binding = FragmentProductBinding.inflate(inflater,container,false)
+        getItemList()
+        /*
         val textView: TextView = binding.root.findViewById(R.id.text_home)
         productViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
-        })
-
+        })*/
         binding.floatingAddProduct.setOnClickListener {
                 startActivity(Intent(context,AddProductActivity::class.java))
             }
