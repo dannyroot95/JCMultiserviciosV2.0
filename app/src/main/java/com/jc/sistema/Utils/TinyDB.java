@@ -32,6 +32,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.jc.sistema.Models.Cart;
 import com.jc.sistema.Models.Product;
 
 import java.io.File;
@@ -614,6 +615,38 @@ public class TinyDB {
 
 
     /*---------------------------------------------------------------------------------------*/
+
+
+
+    //--------------------------------------------------------------------------------------
+
+    public void putListCart(String key, ArrayList<Cart> list){
+        checkForNullKey(key);
+        Gson gson = new Gson();
+        ArrayList<String> objStrings = new ArrayList<String>();
+        for(Cart cart: list){
+            objStrings.add(gson.toJson(cart));
+        }
+        putListString(key, objStrings);
+    }
+
+    //No need Class<?> mClass parameter. Because we know it is Player!
+    public ArrayList<Cart> getListCart(String key, Class<Cart> java){
+        Gson gson = new Gson();
+
+        ArrayList<String> objStrings = getListString(key);
+        ArrayList<Cart> playerList =  new ArrayList<Cart>();
+
+        for(String jObjString : objStrings){
+            Cart cart  = gson.fromJson(jObjString,  Cart.class);
+            playerList.add(cart);
+        }
+        return playerList;
+    }
+
+
+    /*---------------------------------------------------------------------------------------*/
+
 
 
     /**

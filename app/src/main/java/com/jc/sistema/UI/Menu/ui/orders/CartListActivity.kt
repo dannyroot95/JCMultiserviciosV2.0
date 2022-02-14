@@ -6,19 +6,15 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.zxing.integration.android.IntentIntegrator
 import com.jc.sistema.Adapters.CartItemsAdapter
-import com.jc.sistema.Adapters.ProductAdapter
 import com.jc.sistema.Models.Cart
 import com.jc.sistema.Models.Product
 import com.jc.sistema.Providers.CartProvider
-import com.jc.sistema.Providers.OrderProvider
-import com.jc.sistema.R
 import com.jc.sistema.Utils.BaseActivity
 import com.jc.sistema.Utils.CaptureCodeBar
 import com.jc.sistema.Utils.Constants
@@ -35,6 +31,7 @@ class CartListActivity : BaseActivity() {
     private lateinit var mDialog : Dialog
     private lateinit var db : TinyDB
     private lateinit var list : ArrayList<Product>
+    private lateinit var myCartList : ArrayList<Cart>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,9 +43,9 @@ class CartListActivity : BaseActivity() {
         db = TinyDB(this)
         list = db.getListProduct(Constants.PRODUCTS,Product::class.java)
         mDialog = Dialog(this)
+        myCartList = ArrayList<Cart>()
         //mDialog.window!!.setBackgroundDrawableResource(0)
         mDialog.setContentView(bindingResultProduct.root)
-
         binding.btnSearchProduct.setOnClickListener {
             initScanner()
         }
@@ -92,12 +89,20 @@ class CartListActivity : BaseActivity() {
                     }else{
                         Picasso.with(this).load(productResult.image).into(bindingResultProduct.dgProduct)
                     }
+
+                    bindingResultProduct.ckPricePza.isChecked = false
+                    bindingResultProduct.ckPriceDoc.isChecked = false
+                    bindingResultProduct.ckPriceJgo.isChecked = false
+
+                    bindingResultProduct.ckPricePza.isEnabled = true
+                    bindingResultProduct.ckPriceDoc.isEnabled = true
+                    bindingResultProduct.ckPriceJgo.isEnabled = true
+                    bindingResultProduct.lnAddProduct.visibility = View.GONE
+
                     bindingResultProduct.dgDescription.text = productResult.description
                     bindingResultProduct.dgStock.text = "Stock : "+productResult.stock
 
                     verifyPrices(productResult,bindingResultProduct)
-
-
                     mDialog.show()
                 }else{
                     Toast.makeText(this,"No existe este producto!",Toast.LENGTH_SHORT).show()
@@ -195,38 +200,49 @@ class CartListActivity : BaseActivity() {
 
         bindingResultProduct.btnAddToCart.setOnClickListener {
             val mFirestore = FirebaseFirestore.getInstance()
-            if (valueSelected != "" && price != ""){
+            var isRepeat = 0
 
-                val totalPrice = price.toInt()*bindingResultProduct.txtQuantity.text.toString().toInt()
-
-                showDialog("Añadiendo al carrito...")
-
-                val cart = Cart(productResult.id,
-                    productResult.image,
-                    productResult.description,
-                    price,
-                    totalPrice.toString(),
-                    productResult.arrayColors,
-                    valueSelected,
-                    bindingResultProduct.txtQuantity.text.toString())
-
-                mFirestore.collection(Constants.CART_ITEMS).document().set(cart,SetOptions.merge()).addOnCompleteListener {
-                    if (it.isSuccessful){
-                        hideDialog()
-                        mDialog.dismiss()
-                        Toast.makeText(this,"Agregado!",Toast.LENGTH_SHORT).show()
-                    }
-                    else{
-                        hideDialog()
-                        Toast.makeText(this,"Error , intentelo de nuevo!",Toast.LENGTH_SHORT).show()
-                    }
+            for (i in myCartList){
+                if (i.description == productResult.description){
+                    isRepeat +=1
                 }
-
-            }else{
-                Toast.makeText(this,"Seleccione al menos una opción",Toast.LENGTH_SHORT).show()
             }
 
+            if (isRepeat == 0){
+                if (valueSelected != "" && price != ""){
 
+                    val totalPrice = price.toInt()*bindingResultProduct.txtQuantity.text.toString().toInt()
+
+                    showDialog("Añadiendo al carrito...")
+
+                    val cart = Cart(productResult.id,
+                        productResult.image,
+                        productResult.description,
+                        price,
+                        totalPrice.toString(),
+                        productResult.arrayColors,
+                        valueSelected,
+                        bindingResultProduct.txtQuantity.text.toString())
+
+                    mFirestore.collection(Constants.CART_ITEMS).document().set(cart,SetOptions.merge()).addOnCompleteListener {
+                        if (it.isSuccessful){
+                            hideDialog()
+                            mDialog.dismiss()
+                            Toast.makeText(this,"Agregado!",Toast.LENGTH_SHORT).show()
+                        }
+                        else{
+                            hideDialog()
+                            Toast.makeText(this,"Error , intentelo de nuevo!",Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                }else{
+                    Toast.makeText(this,"Seleccione al menos una opción",Toast.LENGTH_SHORT).show()
+                }
+            }else{
+                Toast.makeText(this,"Este producto ya esta en el carrito!",Toast.LENGTH_SHORT).show()
+            }
+            
         }
 
     }
@@ -238,6 +254,8 @@ class CartListActivity : BaseActivity() {
 
     fun successCartList(cartList: ArrayList<Cart>) {
         if (cartList.size > 0) {
+            val db = TinyDB(this)
+            myCartList = cartList
             binding.rvCart.visibility = View.VISIBLE
             binding.lnNoItemsCart.visibility = View.GONE
             binding.lnProgress.visibility = View.GONE
